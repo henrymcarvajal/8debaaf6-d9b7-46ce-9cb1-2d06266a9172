@@ -1,0 +1,643 @@
+openapi: "3.0.0"
+
+info:
+  title: Edubit API
+  version: 1.0.0
+  description: OpenAPI spec for Edubit's managed entities
+  contact:
+    name: HMCA
+
+tags:
+  - name: Admin
+    description: All operations related with managed entities
+
+components:
+  schemas:
+    PersistentActivity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: UUID
+        name:
+          type: string
+        levels:
+          type: integer
+        description:
+          type: string
+        enabled:
+          type: boolean
+        creationDate:
+          type: string
+          format: ISO 8601
+        modificationDate:
+          type: string
+          format: ISO 8601
+        disabledDate:
+          type: string
+          format: ISO 8601
+      required:
+        - id
+        - name
+        - levels
+        - description
+        - enabled
+        - creationDate
+    PersistentAsset:
+      type: object
+      properties:
+        id:
+          type: string
+          format: UUID
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        enabled:
+          type: boolean
+        creationDate:
+          type: string
+          format: ISO 8601
+        modificationDate:
+          type: string
+          format: ISO 8601
+        disabledDate:
+          type: string
+          format: ISO 8601
+      required:
+        - id
+        - title
+        - description
+        - price
+        - enabled
+        - creationDate
+    PersistentImprovement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: UUID
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        enabled:
+          type: boolean
+        creationDate:
+          type: string
+          format: ISO 8601
+        modificationDate:
+          type: string
+          format: ISO 8601
+        disabledDate:
+          type: string
+          format: ISO 8601
+      required:
+        - id
+        - name
+        - description
+        - price
+        - enabled
+        - creationDate
+    PersistentInstitution:
+      type: object
+      properties:
+        id:
+          type: string
+          format: UUID
+        name:
+          type: string
+        enabled:
+          type: boolean
+        creationDate:
+          type: string
+          format: ISO 8601
+        modificationDate:
+          type: string
+          format: ISO 8601
+        disabledDate:
+          type: string
+          format: ISO 8601
+      required:
+        - id
+        - name
+        - enabled
+        - creationDate
+
+servers:
+  - url: https://{gateway}.execute-api.us-east-1.amazonaws.com/{stage}/admin
+    description: URL on AWS cloud
+    variables:
+      gateway:
+        enum: [78vxincnn2]
+        default: 78vxincnn2
+      stage:
+        enum: [dev, qa, live]
+        default: dev
+
+paths:
+  /activities/{id}:
+    get:
+      summary: Get activity
+      description: Get all information of an activity
+      operationId: getActivity
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Participant successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentActivity'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    patch:
+      summary: Update activity
+      description: Updates partial information of an activity (name, levels, abilities, description)
+      operationId: updateActivity
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersistentActivity'
+      responses:
+        '200':
+          description: Participant successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentActivity'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    delete:
+      summary: Disables participant
+      description: Makes a logical deletion of a participant
+      operationId: deleteParticipant
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Participant successfully disabled
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /activities:
+    get:
+      summary: Get all activities
+      description: Get all information of activities
+      operationId: getActivities
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: Participant successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentActivity'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /assets/{id}:
+    get:
+      summary: Get asset
+      description: Get all information of an asset
+      operationId: getAsset
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Asset successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentAsset'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    patch:
+      summary: Update asset
+      description: Updates partial information of an asset (title, description, price)
+      operationId: updateAsset
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersistentAsset'
+      responses:
+        '200':
+          description: Asset successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentAsset'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    delete:
+      summary: Disable asset
+      description: Makes a logical deletion of an asset
+      operationId: deleteAsset
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Asset successfully disabled
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /assets:
+    get:
+      summary: Get all assets
+      description: Get all information of assets
+      operationId: getAssets
+      tags:
+        - Admin
+      responses:
+        '200':
+          description:  successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentAsset'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /improvements/{id}:
+    get:
+      summary: Get improvement
+      description: Get all information of one improvement
+      operationId: getImprovement
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Improvement successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentImprovement'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    patch:
+      summary: Update improvement
+      description: Updates partial information of an improvement (name, description, price)
+      operationId: updateImprovement
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersistentImprovement'
+      responses:
+        '200':
+          description: Improvement successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentImprovement'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    delete:
+      summary: Disable improvement
+      description: Makes a logical deletion of an improvement
+      operationId: deleteImprovement
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Improvement successfully disabled
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /improvements:
+    get:
+      summary: Get all improvements
+      description: Get all information of institutions
+      operationId: getImprovements
+      tags:
+        - Admin
+      responses:
+        '200':
+          description:  successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentImprovement'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /institutions/{id}:
+    get:
+      summary: Get institution
+      description: Get all information of an institution
+      operationId: getInstitution
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Institution successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentInstitution'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    patch:
+      summary: Update institution
+      description: Updates partial information of an institution (title, description, price)
+      operationId: updateInstitution
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersistentInstitution'
+      responses:
+        '200':
+          description: Institution successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentInstitution'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+    delete:
+      summary: Disable institution
+      description: Makes a logical deletion of an institution
+      operationId: deleteInstitution
+      tags:
+        - Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: UUID
+      responses:
+        '200':
+          description: Institution successfully disabled
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  /institutions:
+    get:
+      summary: Get all institutions
+      description: Get all information of institutions
+      operationId: getInstitutions
+      tags:
+        - Admin
+      responses:
+        '200':
+          description:  successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersistentInstitution'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                  type: object
+        '502':
+          description: Unprocessable request
+          content:
+            application/json:
+              schema:
+                  type: object
+  

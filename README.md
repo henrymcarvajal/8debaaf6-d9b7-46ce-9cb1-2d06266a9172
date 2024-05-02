@@ -1,15 +1,19 @@
-$${\color{red}Red}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-$${\color{green}Green}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-$${\color{lightgreen}Light \space Green}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-$${\color{blue}Blue}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-$${\color{lightblue}Light \space Blue}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-$${\color{black}Black}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-$${\color{white}White}$$
-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-Test of colors 
+```mermaid
+classDiagram
+class User
+class Player
+class Team
+class Experience
+class Jackpot
+class Prize
+class Move
+class Draw
+
+    User "1" <-- "1" Player
+    Team "0..1" o-- "1" Player
+    Experience "1" --> "1" Jackpot
+    Jackpot "1" --> "4..*" Prize
+    Player "1" --> "1" Move
+    Move "1" --> "1" Experience
+    Move "1" --> "1" Experience
+    Draw "0..* "--> "1" Prize

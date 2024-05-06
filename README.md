@@ -1,19 +1,27 @@
-```mermaid
-classDiagram
-class User
-class Player
-class Team
-class Experience
-class Jackpot
-class Prize
-class Move
-class Draw
+# Execute drawing
 
-    User "1" <-- "1" Player
-    Team "0..1" o-- "1" Player
-    Experience "1" --> "1" Jackpot
-    Jackpot "1" --> "4..*" Prize
-    Player "1" --> "1" Move
-    Move "1" --> "1" Experience
-    Move "1" --> "1" Experience
-    Draw "0..* "--> "1" Prize
+```mermaid
+---
+title: Jackpot model
+---
+classDiagram
+    class Jackpot {
+        number_Of_Parts
+    }
+    class Part {
+        probability
+    }
+    class Prize {
+        number_Of_Items_Per_Part
+    }
+    class Ticket
+    class Player
+
+Jackpot *-- Part
+Prize o-- Part
+Ticket --> Part
+Player --> Prize
+
+note for Jackpot "This is a note for a class"
+
+```
